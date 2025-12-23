@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,18 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
+// Define web routes
+$web_routes = [
+    ['method' => 'GET', 'path' => '/', 'controller' => CityController::class, 'action' => 'index'],
+    ['method' => 'GET', 'path' => '/cities', 'controller' => CityController::class, 'action' => 'index'],
+    ['method' => 'GET', 'path' => '/cities/create', 'controller' => CityController::class, 'action' => 'create'],
+    ['method' => 'POST', 'path' => '/cities', 'controller' => CityController::class, 'action' => 'store'],
+    ['method' => 'GET', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'show'],
+    ['method' => 'GET', 'path' => '/cities/{id}/edit', 'controller' => CityController::class, 'action' => 'edit'],
+    ['method' => 'PUT', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'update'],
+    ['method' => 'DELETE', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'destroy'],
+];

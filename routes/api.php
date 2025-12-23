@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Define API routes
+$routes = [
+    // Public routes
+    ['method' => 'GET', 'path' => '/cities', 'controller' => CityController::class, 'action' => 'index'],
+    ['method' => 'GET', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'show'],
+    
+    // Authenticated routes
+    ['method' => 'POST', 'path' => '/cities', 'controller' => CityController::class, 'action' => 'store'],
+    ['method' => 'PUT', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'update'],
+    ['method' => 'PATCH', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'update'],
+    ['method' => 'DELETE', 'path' => '/cities/{id}', 'controller' => CityController::class, 'action' => 'destroy'],
+    
+    // Auth routes
+    ['method' => 'POST', 'path' => '/login', 'controller' => AuthController::class, 'action' => 'login'],
+    ['method' => 'POST', 'path' => '/register', 'controller' => AuthController::class, 'action' => 'register'],
+    ['method' => 'POST', 'path' => '/logout', 'controller' => AuthController::class, 'action' => 'logout'],
+];
