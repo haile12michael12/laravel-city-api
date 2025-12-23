@@ -11,35 +11,44 @@
 |
 */
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
-
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
-
-$app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    App\Http\Kernel::class
-);
-
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
-
-$app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
-);
+$app = new class {
+    private array $bindings = [];
+    
+    public function bind(string $abstract, mixed $concrete): void
+    {
+        $this->bindings[$abstract] = $concrete;
+    }
+    
+    public function singleton(string $abstract, mixed $concrete): void
+    {
+        $this->bind($abstract, $concrete);
+    }
+    
+    public function make(string $abstract): mixed
+    {
+        if (isset($this->bindings[$abstract])) {
+            $concrete = $this->bindings[$abstract];
+            return $concrete instanceof Closure ? $concrete($this) : $concrete;
+        }
+        
+        // If binding doesn't exist, try to instantiate the class directly
+        if (class_exists($abstract)) {
+            return new $abstract();
+        }
+        
+        throw new Exception("Unable to resolve {$abstract}");
+    }
+    
+    public function registerConfiguredProviders(): void
+    {
+        // Placeholder for provider registration
+    }
+    
+    public function boot(): void
+    {
+        // Placeholder for application boot
+    }
+};
 
 /*
 |--------------------------------------------------------------------------
