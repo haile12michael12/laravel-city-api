@@ -2,23 +2,19 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Repositories\CityRepositoryInterface;
+use App\Repositories\CityRepository;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        // Register repository bindings
+        // In a real Laravel app, you would bind these in the container
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        // Boot any application services
     }
 }

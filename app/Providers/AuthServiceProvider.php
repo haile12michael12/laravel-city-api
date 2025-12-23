@@ -2,25 +2,23 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\User;
+use App\Policies\CityPolicy;
+use App\Models\City;
 
-class AuthServiceProvider extends ServiceProvider
+class AuthServiceProvider
 {
-    /**
-     * The model to policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
-     */
-    protected $policies = [
-        //
+    protected array $policies = [
+        City::class => CityPolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     */
+    public function register(): void
+    {
+        // Register any authentication / authorization services
+    }
+
     public function boot(): void
     {
-        //
+        // Register policies
     }
 }
